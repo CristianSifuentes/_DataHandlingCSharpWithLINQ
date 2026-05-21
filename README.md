@@ -89,6 +89,13 @@ Extension methods appear on collections and provide filtering and transformation
 var result = list.Where(x => x > 10);
 ```
 
+## Hands-on Demo: IEnumerable vs IQueryable
+An interactive example demonstrates the practical differences between `IEnumerable<T>` and `IQueryable<T>`, including deferred execution, expression trees, and how enumeration behaves when filtering is applied client-side versus provider-side.
+
+- Example source: [Examples/IEnumerableVsIQueryableDemo.cs](Examples/IEnumerableVsIQueryableDemo.cs)
+- Run guidance: call `Examples.IEnumerableVsIQueryableDemo.Run()` from your `Program.cs` or a test harness to observe the output and logs.
+
+
 ## Functional vs Imperative Programming
 LINQ and LINQ to XML are examples of a functional, declarative programming style. This contrasts with traditional imperative or procedural programming, where developers write explicit steps and manage state changes.
 

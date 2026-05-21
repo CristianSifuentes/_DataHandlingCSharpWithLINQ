@@ -67,3 +67,5 @@ Console.WriteLine($"Bananas from IQueryable: {string.Join(", ", queryableBananas
 // This allows for more efficient querying, as only the necessary data is retrieved from the source. 
 // In summary, IEnumerable<T> is used for in-memory collections and executes queries in memory, while IQueryable<T> is used for querying external data sources and allows for query translation and execution on the data source.
 // In this example, since we're using an in-memory collection, the behavior of IQueryable and IEnumerable will be similar. However, in a real-world scenario with a database provider (like Entity Framework), IQueryable would translate the query into SQL and execute it on the database server, while IEnumerable would execute the query in memory after retrieving all data.
+
+Examples.IEnumerableVsIQueryableDemo.Run();
