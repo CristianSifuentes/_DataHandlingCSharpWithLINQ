@@ -6,6 +6,7 @@ Manipulate data in C# collections using LINQ. Learn operators for filtering, gro
 - [Video Summary](#video-summary)
 - [What is LINQ?](#what-is-linq)
 - [LINQ Providers](#linq-providers)
+- [IEnumerable vs IQueryable](#ienumerable-vs-iqueryable)
 - [LINQ Syntax](#linq-syntax)
   - [Query Expression](#query-expression)
   - [Extension Methods](#extension-methods)
@@ -46,6 +47,23 @@ LINQ works with providers that adapt queries to each data source. Some of the mo
 - Entity Framework / LINQ to Entities
 - LINQ to XML
 - LINQ to DataSet
+
+## IEnumerable vs IQueryable
+`IEnumerable` does support LINQ expressions and operations. The confusion usually comes from the fact that LINQ methods behave very differently depending on whether you use `IEnumerable` or `IQueryable`.
+
+### How LINQ works with IEnumerable
+When you apply LINQ expressions over an `IEnumerable`, the query is executed in the memory of your application (client-side).
+- Advantage: Direct and excellent for in-memory collections like `List<T>`.
+- Limitation: If used against databases, `IEnumerable` forces loading all table rows into RAM before filtering them.
+
+### The alternative: IQueryable
+If you need to generate complex expressions (such as filters or groupings) that translate and execute directly in the database, use `IQueryable`. This avoids excessive memory consumption.
+
+### When do errors happen?
+- Unnecessary loads: If you have a method that returns `IEnumerable` from your database and then apply `.Where()`, the issue is not that expressions do not exist; instead, the data engine will pull all data before applying the filter.
+- Expression trees: With `IQueryable`, LINQ builds an expression tree that your provider (such as Entity Framework) converts to SQL. If you convert from `IQueryable` to `IEnumerable` before filtering, you lose this capability.
+
+You can learn more about how these interfaces relate in the differences between `IEnumerable` and `IQueryable`, or review the Microsoft Learn guide on how to write queries correctly.
 
 ## LINQ Syntax
 LINQ provides two main syntax styles:
