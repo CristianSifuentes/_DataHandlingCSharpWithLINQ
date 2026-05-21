@@ -49,21 +49,28 @@ LINQ works with providers that adapt queries to each data source. Some of the mo
 - LINQ to DataSet
 
 ## IEnumerable vs IQueryable
-`IEnumerable` does support LINQ expressions and operations. The confusion usually comes from the fact that LINQ methods behave very differently depending on whether you use `IEnumerable` or `IQueryable`.
+In reality, `IEnumerable` does support LINQ expressions and operations. The confusion comes from the fact that LINQ methods behave very differently depending on whether you use `IEnumerable` or `IQueryable`.
 
 ### How LINQ works with IEnumerable
-When you apply LINQ expressions over an `IEnumerable`, the query is executed in the memory of your application (client-side).
-- Advantage: Direct and excellent for in-memory collections like `List<T>`.
-- Limitation: If used against databases, `IEnumerable` forces loading all table rows into RAM before filtering them.
+When you use LINQ expressions on an `IEnumerable`, the query is executed in the memory of your application (client-side).
+- Advantage: It is simple and ideal for in-memory collections such as `List<T>`.
+- Limitation: When used against a database source, `IEnumerable` forces the provider to load all rows into memory first and then apply the filter locally.
 
 ### The alternative: IQueryable
-If you need to generate complex expressions (such as filters or groupings) that translate and execute directly in the database, use `IQueryable`. This avoids excessive memory consumption.
+If you need complex expressions like filters, grouping, or joins that should be translated and executed directly in the database, use `IQueryable`.
+- `IQueryable` builds an expression tree that the provider (for example, Entity Framework) converts into SQL or another backend query language.
+- This prevents unnecessary memory consumption and can significantly improve performance for remote data sources.
 
-### When do errors happen?
-- Unnecessary loads: If you have a method that returns `IEnumerable` from your database and then apply `.Where()`, the issue is not that expressions do not exist; instead, the data engine will pull all data before applying the filter.
-- Expression trees: With `IQueryable`, LINQ builds an expression tree that your provider (such as Entity Framework) converts to SQL. If you convert from `IQueryable` to `IEnumerable` before filtering, you lose this capability.
+### When do problems occur?
+- Unnecessary loads: If a method returns `IEnumerable` from your database and you later apply `.Where()`, the issue is not the lack of expressions; it is that the data engine will fetch all records first and then filter them in memory.
+- Expression tree loss: When you switch from `IQueryable` to `IEnumerable` before filtering, LINQ can no longer translate your query. The query will be executed locally and you lose provider-side optimization.
 
-You can learn more about how these interfaces relate in the differences between `IEnumerable` and `IQueryable`, or review the Microsoft Learn guide on how to write queries correctly.
+### Practical guidance
+- Use `IEnumerable` for local, in-memory collections and simple client-side processing.
+- Use `IQueryable` when querying remote data sources and you want the expression tree to be translated into backend queries.
+- Avoid returning `IEnumerable` from database access methods if you expect the filter to run on the server.
+
+For more detail, study the differences between `IEnumerable` and `IQueryable` and review Microsoft Learn guidance on writing LINQ queries correctly.
 
 ## LINQ Syntax
 LINQ provides two main syntax styles:
