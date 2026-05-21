@@ -14,7 +14,9 @@ Manipulate data in C# collections using LINQ. Learn operators for filtering, gro
 - [Resources](#resources)
 
 ## Introduction
-This repository is designed to learn and demonstrate the use of LINQ in .NET. LINQ enables querying data from different sources in a language-integrated way, leveraging C# power to transform, filter, and order information.
+This repository is designed to learn and demonstrate the use of LINQ in .NET. LINQ is a language that integrates into C# and enables collection manipulation with a fluent, expressive query model. It supports two main implementation styles: query expressions and extension methods, and it is available through the `System.Linq` namespace.
+
+LINQ enables querying data from different sources in a language-integrated way, leveraging C# power to transform, filter, and order information.
 
 ## Video Summary
 LINQ is a set of technologies in .NET derived from the term "Language Integrated Query" and it is used to query data from different sources.
@@ -28,12 +30,13 @@ Common data sources:
 LINQ has different providers for each data source. It is possible to create a custom provider by implementing the `IQueryProvider` and `IQueryable` interfaces.
 
 ## What is LINQ?
-LINQ is a .NET library used to work with queries over collections and data sources.
+LINQ is a .NET feature used to work with queries over collections and data sources. It is not a separate programming language; rather, it is a metalanguage built on top of existing .NET languages such as C#. This means LINQ is understood by the compiler and works with the language you are already using.
 
 - It is not a programming language.
 - It is not an SQL component.
 - It is not a database component.
 - It is not a third-party library.
+- It is a metalanguage that is compatible with many .NET languages.
 
 ## LINQ Providers
 LINQ works with providers that adapt queries to each data source. Some of the most common providers are:
@@ -47,6 +50,7 @@ LINQ works with providers that adapt queries to each data source. Some of the mo
 LINQ provides two main syntax styles:
 
 ### Query Expression
+Query expressions use a SQL-like syntax inside C#.
 ```csharp
 var result = from l in list
              where l > 10
@@ -54,6 +58,7 @@ var result = from l in list
 ```
 
 ### Extension Methods
+Extension methods appear on collections and provide filtering and transformation functions. These methods come from the `System.Linq` namespace.
 ```csharp
 var result = list.Where(x => x > 10);
 ```
